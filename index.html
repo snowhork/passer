@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Passer</title>
+    <meta charset="utf-8">
+    <meta name="author" content="snowhork">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material@1.0.0-beta-10.2/dist/vue-material.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/theme/default.css">
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-material@1.0.0-beta-10.2/dist/vue-material.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="page-container">
+        <md-app>
+          <md-app-toolbar class="md-primary">
+            <span class="md-title">{{ message }}</span>
+          </md-app-toolbar>
+        </md-app>
+
+        <div class="md-layout md-gutter" style="padding: 5px">
+          <div class="md-layout-item">
+
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item md-size-80">
+                <md-field>
+                  <label>Prefix</label>
+                  <md-select v-model="prefix" name="prefix" id="prefix">
+                    <md-option v-for="option in options" v-bind:value="option" :key="option">{{ option }}</md-option>
+                  </md-select>
+                </md-field>
+              </div>
+              <div class="md-layout-item">
+                <md-button class="md-icon-button md-raised md-primary"
+                  @click.stop.prevent="deletePrefix" v-show="prefix != ''"
+                  style="margin-top: 7px">
+                  <md-icon>delete</md-icon>
+                </md-button>
+              </div>
+            </div>
+
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item md-size-80">
+                <md-field>
+                  <label>New Prefix</label>
+                  <md-input v-model="newPrefix" placeholder="New Prefix"></md-input>
+                </md-field>
+              </div>
+              <div class="md-layout-item">
+                <md-button class="md-icon-button md-raised md-primary"
+                  @click.stop.prevent="createPrefix"
+                  style="margin-top: 7px">
+                  <md-icon>add</md-icon>
+                </md-button>
+              </div>
+            </div>
+          </div>
+
+          <div class="md-layout-item">
+            <md-field>
+              <label>Your Password</label>
+              <md-input v-model="password" placeholder="your password" type="password"></md-input>
+            </md-field>
+
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item md-size-80">
+                <md-field>
+                  <label>Generated Hash</label>
+                  <md-input v-model="currentHash" type="password" readonly></md-input>
+                  <span id="target-form" style="font-size: 0">{{currentHash}}</span>
+                </md-field>
+              </div>
+              <div class="md-layout-item">
+                <md-button class="md-icon-button md-raised md-primary clipcopy" v-show="currentHash != '' && password != ''" data-clipboard-target="#target-form" @click="showSnackbar = true">
+                  <md-icon>file_copy</md-icon>
+                </md-button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <md-snackbar :md-position="'center'" :md-duration="2000" :md-active.sync="showSnackbar" md-persistent>
+          <span>Copied!</span>
+        </md-snackbar>
+      </div>
+    </div>
+  <script src="sha256.js"></script>
+  <script src="clipboard.min.js"></script>
+  <script src="index.js"></script>
+  </body>
+</html>
